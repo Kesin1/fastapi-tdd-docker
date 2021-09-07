@@ -1,0 +1,159 @@
+{
+    "index_patterns" : ["pt*"],
+    "mappings": {
+        "question": {
+            "properties": {
+                "questionId": {
+                    "type": "integer"
+                },
+                "title": {
+                    "type": "text",
+                    "similarity": "my_bm25",
+                    "norms": false,
+                    "analyzer": "portuguese_light",
+                    "fields": {
+                        "stemmed": {
+                            "type": "text",
+                            "analyzer": "portuguese_heavy"
+                        }
+                    }
+                },
+                "titleReword": {
+                    "type": "text",
+                    "similarity": "my_bm25",
+                    "norms": false,
+                    "analyzer": "portuguese_light",
+                    "fields": {
+                        "stemmed": {
+                            "type": "text",
+                            "analyzer": "portuguese_heavy"
+                        }
+                    }
+                },
+                "questionSlug": {
+                    "type": "keyword"
+                },
+                "boost": {
+                    "type": "integer"
+                },
+                "knowlegdebaseId": {
+                    "type": "integer"
+                },
+                "status": {
+                    "type": "keyword"
+                },
+                "promoted": {
+                    "type": "boolean"
+                },
+                "frequent": {
+                    "type": "boolean"
+                },
+                "responses": {
+                    "type": "nested",
+                    "properties": {
+                        "responseId": {
+                            "type": "integer"
+                        },
+                        "body": {
+                            "type": "text",
+                            "similarity": "my_bm25",
+                            "norms": false,
+                            "analyzer": "portuguese_light",
+                            "fields": {
+                                "stemmed": {
+                                    "type": "text",
+                                    "analyzer": "portuguese_heavy"
+                                }
+                            }
+                        },
+                        "channel": {
+                            "type": "keyword"
+                        },
+                        "status": {
+                            "type": "keyword"
+                        }
+                    }
+                },
+                "filters": {
+                    "type": "nested",
+                    "properties": {
+                        "filterId": {
+                            "type": "integer"
+                        },
+                        "name": {
+                            "type": "keyword"
+                        },
+                        "type": {
+                            "type": "keyword"
+                        },
+                        "slug": {
+                            "type": "keyword"
+                        },
+                        "active": {
+                            "type": "keyword"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "settings": {
+        "similarity": {
+            "my_bm25": {
+                "type": "BM25",
+                "b": 0
+            }
+        },
+        "analysis": {
+            "char_filter": {
+                "html_char_filter": {
+                    "type": "html_strip"
+                }
+            },
+            "filter": {
+                "portuguese_stopwords": {
+                    "type": "stop",
+                    "stopwords": "_portuguese_",
+                    "ignore_case": true
+                },
+                "portuguese_stemmer": {
+                    "type": "stemmer",
+                    "language": "light_portuguese"
+                },
+                "length_filter": {
+                    "type": "length",
+                    "min": 2,
+                    "max": 100
+                }
+            },
+	    "analyzer": {
+                "portuguese_heavy": {
+                    "tokenizer": "icu_tokenizer",
+                    "char_filter": [
+                        "html_char_filter"
+                    ],
+                    "filter": [
+			"lowercase",
+                        "icu_folding",
+                        "length_filter",
+                        "portuguese_stopwords",
+                        "portuguese_stemmer",
+                        "remove_duplicates"
+                    ]
+                },
+                "portuguese_light": {
+                    "tokenizer": "icu_tokenizer",
+                    "char_filter": [
+                        "html_char_filter"
+                    ],
+                    "filter": [
+			"lowercase",
+                        "icu_folding",
+                        "length_filter",
+                        "portuguese_stopwords"
+                    ]
+                }
+            }
+        }
+    }
+}

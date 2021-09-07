@@ -1,0 +1,164 @@
+{
+    "index_patterns" : ["es*"],
+    "mappings": {
+        "question": {
+            "properties": {
+                "questionId": {
+                    "type": "integer"
+                },
+                "title": {
+                    "type": "text",
+                    "similarity": "my_bm25",
+                    "norms": false,
+                    "analyzer": "spanish_light",
+                    "fields": {
+                        "stemmed": {
+                            "type": "text",
+                            "analyzer": "spanish_heavy"
+                        }
+                    }
+                },
+                "titleReword": {
+                    "type": "text",
+                    "similarity": "my_bm25",
+                    "norms": false,
+                    "analyzer": "spanish_light",
+                    "fields": {
+                        "stemmed": {
+                            "type": "text",
+                            "analyzer": "spanish_heavy"
+                        }
+                    }
+                },
+                "questionSlug": {
+                    "type": "keyword"
+                },
+                "boost": {
+                    "type": "integer"
+                },
+                "knowlegdebaseId": {
+                    "type": "integer"
+                },
+                "status": {
+                    "type": "keyword"
+                },
+                "promoted": {
+                    "type": "boolean"
+                },
+                "frequent": {
+                    "type": "boolean"
+                },
+                "responses": {
+                    "type": "nested",
+                    "properties": {
+                        "responseId": {
+                            "type": "integer"
+                        },
+                        "body": {
+                            "type": "text",
+                            "similarity": "my_bm25",
+                            "norms": false,
+                            "analyzer": "spanish_light",
+                            "fields": {
+                                "stemmed": {
+                                    "type": "text",
+                                    "analyzer": "spanish_heavy"
+                                }
+                            }
+                        },
+                        "channel": {
+                            "type": "keyword"
+                        },
+                        "status": {
+                            "type": "keyword"
+                        }
+                    }
+                },
+                "filters": {
+                    "type": "nested",
+                    "properties": {
+                        "filterId": {
+                            "type": "integer"
+                        },
+                        "name": {
+                            "type": "keyword"
+                        },
+                        "type": {
+                            "type": "keyword"
+                        },
+                        "slug": {
+                            "type": "keyword"
+                        },
+                        "active": {
+                            "type": "keyword"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "settings": {
+        "similarity": {
+            "my_bm25": {
+                "type": "BM25",
+                "b": 0
+            }
+        },
+        "analysis": {
+            "char_filter": {
+                "html_char_filter": {
+                    "type": "html_strip"
+                },
+                "spanish_char_filter": {
+                    "type": "icu_normalizer"
+                }
+            },
+            "filter": {
+                "spanish_stopwords": {
+                    "type": "stop",
+                    "stopwords": "_spanish_",
+                    "ignore_case": true
+                },
+                "spanish_stemmer": {
+                    "type": "stemmer",
+                    "language": "light_spanish"
+                },
+                "length_filter": {
+                    "type": "length",
+                    "min": 2,
+                    "max": 100
+                }
+            },
+            "analyzer": {
+                "spanish_heavy": {
+                    "tokenizer": "icu_tokenizer",
+                    "char_filter": [
+                        "html_char_filter",
+                        "spanish_char_filter"
+                    ],
+                    "filter": [
+                        "lowercase",
+                        "icu_folding",
+                        "length_filter",
+                        "spanish_stopwords",
+                        "spanish_stemmer",
+                        "remove_duplicates"
+                    ]
+                },
+                "spanish_light": {
+                    "tokenizer": "icu_tokenizer",
+                    "char_filter": [
+                        "html_char_filter",
+                        "spanish_char_filter"
+                    ],
+                    "filter": [
+                        "lowercase",
+                        "icu_folding",
+                        "length_filter",
+                        "spanish_stopwords"
+                    ]
+                }
+            }
+        }
+    }
+}

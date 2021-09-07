@@ -1,0 +1,171 @@
+{
+    "index_patterns" : ["it*"],
+    "mappings": {
+        "question": {
+            "properties": {
+                "questionId": {
+                    "type": "integer"
+                },
+                "title": {
+                    "type": "text",
+                    "similarity": "my_bm25",
+                    "norms": false,
+                    "analyzer": "italian_light",
+                    "fields": {
+                        "stemmed": {
+                            "type": "text",
+                            "analyzer": "italian_heavy"
+                        }
+                    }
+                },
+                "titleReword": {
+                    "type": "text",
+                    "similarity": "my_bm25",
+                    "norms": false,
+                    "analyzer": "italian_light",
+                    "fields": {
+                        "stemmed": {
+                            "type": "text",
+                            "analyzer": "italian_heavy"
+                        }
+                    }
+                },
+                "questionSlug": {
+                    "type": "keyword"
+                },
+                "boost": {
+                    "type": "integer"
+                },
+                "knowlegdebaseId": {
+                    "type": "integer"
+                },
+                "status": {
+                    "type": "keyword"
+                },
+                "promoted": {
+                    "type": "boolean"
+                },
+                "frequent": {
+                    "type": "boolean"
+                },
+                "responses": {
+                    "type": "nested",
+                    "properties": {
+                        "responseId": {
+                            "type": "integer"
+                        },
+                        "body": {
+                            "type": "text",
+                            "similarity": "my_bm25",
+                            "norms": false,
+                            "analyzer": "italian_light",
+                            "fields": {
+                                "stemmed": {
+                                    "type": "text",
+                                    "analyzer": "italian_heavy"
+                                }
+                            }
+                        },
+                        "channel": {
+                            "type": "keyword"
+                        },
+                        "status": {
+                            "type": "keyword"
+                        }
+                    }
+                },
+                "filters": {
+                    "type": "nested",
+                    "properties": {
+                        "filterId": {
+                            "type": "integer"
+                        },
+                        "name": {
+                            "type": "keyword"
+                        },
+                        "type": {
+                            "type": "keyword"
+                        },
+                        "slug": {
+                            "type": "keyword"
+                        },
+                        "active": {
+                            "type": "keyword"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "settings": {
+        "similarity": {
+            "my_bm25": {
+                "type": "BM25",
+                "b": 0
+            }
+        },
+        "analysis": {
+            "char_filter": {
+                "html_char_filter": {
+                    "type": "html_strip"
+                }
+            },
+            "filter": {
+		"italian_elision": {
+		    "type": "elision",
+                    "articles": [
+			"c", "l", "all", "dall", "dell",
+			"nell", "sull", "coll", "pell",
+			"gl", "agl", "dagl", "degl", "negl",
+			"sugl", "un", "m", "t", "s", "v", "d"
+                    ],
+                    "articles_case": true
+                },
+                "italian_stopwords": {
+                    "type": "stop",
+                    "stopwords": "_italian_",
+                    "ignore_case": true
+                },
+                "italian_stemmer": {
+                    "type": "stemmer",
+                    "language": "light_italian"
+                },
+                "length_filter": {
+                    "type": "length",
+                    "min": 2,
+                    "max": 100
+                }
+            },
+	    "analyzer": {
+                "italian_heavy": {
+                    "tokenizer": "icu_tokenizer",
+                    "char_filter": [
+                        "html_char_filter"
+                    ],
+                    "filter": [
+                        "italian_elision",
+                        "lowercase",
+                        "icu_folding",
+                        "length_filter",
+                        "italian_stopwords",
+                        "italian_stemmer",
+			"remove_duplicates"
+                    ]
+                },
+                "italian_light": {
+                    "tokenizer": "icu_tokenizer",
+                    "char_filter": [
+                        "html_char_filter"
+                    ],
+                    "filter": [
+                        "italian_elision",
+                        "lowercase",
+                        "icu_folding",
+                        "length_filter",
+                        "italian_stopwords"
+                    ]
+                }
+            }
+        }
+    }
+}

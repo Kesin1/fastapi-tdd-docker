@@ -1,0 +1,19 @@
+
+* New environment
+** What is the environment for?
+
+  - having same environement locally for using Elasticsearch and a Pool of data
+
+** How to use it?
+   
+   - docker-compose up
+   - be careful of the templates that are added immediately
+     - if you like to change that, put the templates.json that are in templates/ into templates/other_templates and vice versa
+
+   - you can find bulk.jsons inside data to bulk index some content
+
+** What data is present for the environment?
+
+   - There are templates for the different languages
+   - Data is added to the folder data (in bulk format)
+

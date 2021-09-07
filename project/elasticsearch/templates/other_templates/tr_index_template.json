@@ -1,0 +1,165 @@
+{
+    "index_patterns" : ["tr*"],
+    "mappings": {
+        "question": {
+            "properties": {
+                "questionId": {
+                    "type": "integer"
+                },
+                "title": {
+                    "type": "text",
+                    "similarity": "my_bm25",
+                    "norms": false,
+                    "analyzer": "turkish_light",
+                    "fields": {
+                        "stemmed": {
+                            "type": "text",
+                            "analyzer": "turkish_heavy"
+                        }
+                    }
+                },
+                "titleReword": {
+                    "type": "text",
+                    "similarity": "my_bm25",
+                    "norms": false,
+                    "analyzer": "turkish_light",
+                    "fields": {
+                        "stemmed": {
+                            "type": "text",
+                            "analyzer": "turkish_heavy"
+                        }
+                    }
+                },
+                "questionSlug": {
+                    "type": "keyword"
+                },
+                "boost": {
+                    "type": "integer"
+                },
+                "knowlegdebaseId": {
+                    "type": "integer"
+                },
+                "status": {
+                    "type": "keyword"
+                },
+                "promoted": {
+                    "type": "boolean"
+                },
+                "frequent": {
+                    "type": "boolean"
+                },
+                "responses": {
+                    "type": "nested",
+                    "properties": {
+                        "responseId": {
+                            "type": "integer"
+                        },
+                        "body": {
+                            "type": "text",
+                            "similarity": "my_bm25",
+                            "norms": false,
+                            "analyzer": "turkish_light",
+                            "fields": {
+                                "stemmed": {
+                                    "type": "text",
+                                    "analyzer": "turkish_heavy"
+                                }
+                            }
+                        },
+                        "channel": {
+                            "type": "keyword"
+                        },
+                        "status": {
+                            "type": "keyword"
+                        }
+                    }
+                },
+                "filters": {
+                    "type": "nested",
+                    "properties": {
+                        "filterId": {
+                            "type": "integer"
+                        },
+                        "name": {
+                            "type": "keyword"
+                        },
+                        "type": {
+                            "type": "keyword"
+                        },
+                        "slug": {
+                            "type": "keyword"
+                        },
+                        "active": {
+                            "type": "keyword"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "settings": {
+        "similarity": {
+            "my_bm25": {
+                "type": "BM25",
+                "b": 0
+            }
+        },
+        "analysis": {
+            "char_filter": {
+                "html_char_filter": {
+                    "type": "html_strip"
+                }
+            },
+            "filter": {
+                "turkish_stopwords": {
+                    "type": "stop",
+                    "stopwords": "_turkish_",
+                    "ignore_case": true
+                },
+                "turkish_lowercase": {
+                    "type":       "lowercase",
+                    "language":   "turkish"
+                },
+                "turkish_stemmer": {
+                    "type": "stemmer",
+                    "language": "turkish"
+                },
+                "length_filter": {
+                    "type": "length",
+                    "min": 2,
+                    "max": 100
+                }
+            },
+	    "analyzer": {
+                "turkish_heavy": {
+                    "tokenizer": "icu_tokenizer",
+                    "char_filter": [
+                        "html_char_filter"
+                    ],
+                    "filter": [
+                        "apostrophe",
+                        "turkish_lowercase",
+                        "icu_folding",
+                        "length_filter",
+                        "turkish_stopwords",
+                        "turkish_stemmer",
+			"remove_duplicates"
+                    ]
+                },
+                "turkish_light": {
+                    "tokenizer": "icu_tokenizer",
+                    "char_filter": [
+                        "html_char_filter"
+                    ],
+                    "filter": [
+                        "apostrophe",
+                        "turkish_lowercase",
+                        "icu_folding",
+                        "length_filter",
+                        "turkish_stopwords"
+                    ]
+                }
+            }
+        }
+    }
+}

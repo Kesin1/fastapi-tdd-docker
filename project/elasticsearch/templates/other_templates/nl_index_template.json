@@ -1,0 +1,159 @@
+{
+    "index_patterns" : ["nl*"],
+    "mappings": {
+        "question": {
+            "properties": {
+                "questionId": {
+                    "type": "integer"
+                },
+                "title": {
+                    "type": "text",
+                    "similarity": "my_bm25",
+                    "norms": false,
+                    "analyzer": "dutch_light",
+                    "fields": {
+                        "stemmed": {
+                            "type": "text",
+                            "analyzer": "dutch_heavy"
+                        }
+                    }
+                },
+                "titleReword": {
+                    "type": "text",
+                    "similarity": "my_bm25",
+                    "norms": false,
+                    "analyzer": "dutch_light",
+                    "fields": {
+                        "stemmed": {
+                            "type": "text",
+                            "analyzer": "dutch_heavy"
+                        }
+                    }
+                },
+                "questionSlug": {
+                    "type": "keyword"
+                },
+                "boost": {
+                    "type": "integer"
+                },
+                "knowlegdebaseId": {
+                    "type": "integer"
+                },
+                "status": {
+                    "type": "keyword"
+                },
+                "promoted": {
+                    "type": "boolean"
+                },
+                "frequent": {
+                    "type": "boolean"
+                },
+                "responses": {
+                    "type": "nested",
+                    "properties": {
+                        "responseId": {
+                            "type": "integer"
+                        },
+                        "body": {
+                            "type": "text",
+                            "similarity": "my_bm25",
+                            "norms": false,
+                            "analyzer": "dutch_light",
+                            "fields": {
+                                "stemmed": {
+                                    "type": "text",
+                                    "analyzer": "dutch_heavy"
+                                }
+                            }
+                        },
+                        "channel": {
+                            "type": "keyword"
+                        },
+                        "status": {
+                            "type": "keyword"
+                        }
+                    }
+                },
+                "filters": {
+                    "type": "nested",
+                    "properties": {
+                        "filterId": {
+                            "type": "integer"
+                        },
+                        "name": {
+                            "type": "keyword"
+                        },
+                        "type": {
+                            "type": "keyword"
+                        },
+                        "slug": {
+                            "type": "keyword"
+                        },
+                        "active": {
+                            "type": "keyword"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "settings": {
+        "similarity": {
+            "my_bm25": {
+                "type": "BM25",
+                "b": 0
+            }
+        },
+        "analysis": {
+            "char_filter": {
+                "html_char_filter": {
+                    "type": "html_strip"
+                }
+            },
+            "filter": {
+                "dutch_stopwords": {
+                    "type": "stop",
+                    "stopwords": "_dutch_",
+                    "ignore_case": true
+                },
+                "dutch_stemmer": {
+                    "type": "stemmer",
+                    "language": "dutch"
+                },
+                "length_filter": {
+                    "type": "length",
+                    "min": 2,
+                    "max": 100
+                }
+            },
+	    "analyzer": {
+                "dutch_heavy": {
+                    "tokenizer": "icu_tokenizer",
+                    "char_filter": [
+                        "html_char_filter"
+                    ],
+                    "filter": [
+			"lowercase",
+                        "icu_folding",
+                        "length_filter",
+                        "dutch_stopwords",
+                        "dutch_stemmer",
+                        "remove_duplicates"
+                    ]
+                },
+                "dutch_light": {
+                    "tokenizer": "icu_tokenizer",
+                    "char_filter": [
+                        "html_char_filter"
+                    ],
+                    "filter": [
+			"lowercase",
+                        "icu_folding",
+                        "length_filter",
+                        "dutch_stopwords"
+                    ]
+                }
+            }
+        }
+    }
+}

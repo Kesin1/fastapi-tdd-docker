@@ -1,0 +1,26 @@
+import json
+import os
+import pandas as pd
+from pathlib2 import Path
+
+
+def load_json_file(filepath: Path) -> dict:
+    """Load json file."""
+    with open(filepath, "r") as fp:
+        json_file = json.load(fp)
+
+    return json_file
+
+
+data_list = load_json_file(
+    "environments/elasticsearch/data/micromania/micromania_with_queries.json"
+)
+
+kb_id = 1
+locale = "fr_fr"
+bulk = []
+for doc in data_list:
+    bulk.append(
+        {"index": {"_index": "fr_fr-knowledge_base-0", "_id": 56, "_type": "question"}}
+    )
+print(data_list[0].keys())
