@@ -27,8 +27,7 @@
     - initial configuration is a headache
     - you don't know exactly what's going on under the hood
 
-  
-* Database Migrations (via Aerich)
+** Database Migrations (via Aerich)
 
   - Tortoise supports [[https://en.wikipedia.org/wiki/Schema_migration][database migrations]] via [[https://github.com/tortoise/aerich][Aerich]]. Let's take a few steps back and configure it.
     https://tortoise-orm.readthedocs.io/en/latest/migration.html
@@ -94,3 +93,56 @@
            assert response.status_code == 200
            assert response.json() == {"environment": "dev", "ping": "pong!", "testing": True}
      #+end_src
+
+* App Structure
+** APIRouter
+  - adding *FastAPIRouter*, *database init function* and a *Pydantic* model
+
+  - routes in particular *api Folder*
+    - remove old route
+    - include the route into the application
+    - use function to initialize new app
+
+  - update test_app
+    - app = create_application(); then replace
+
+  - You can break up and modularize larger projects as well as apply versioning
+    to your API with the APIRouter. If you're familiar with Flask, it's
+    equivalent to a Blueprint. 
+
+** Database Init
+
+   - moving register_tortoise helper to function init_db inside
+     project/app/db.py to clean up project/app/main.py
+   - adding [[https://fastapi.tiangolo.com/advanced/events/][Event Handlers]] *Startup* and *Shutdown*
+     - You can define event handlers (functions) that need to be executed before
+       the application starts up, or when the application is shutting down. 
+   - then calling init_db when there is the event "startup"
+
+*** Apply schema to the database in its final state
+
+    - add generate_schema function to db.py
+    - generate_schema calls Tortoise.init to set up Tortoise and then generates
+      the schema
+    - since we want to use Aerich in the database schema, bring the containers
+      and colums down again
+
+      
+** Pydantic
+
+   - first time using [[https://pydantic-docs.helpmanual.io][Pydantic]]?
+
+* RESTful Routes
+
+  | Endpoint       | HTTP Method | CRUD Method | Result               |
+  |----------------+-------------+-------------+----------------------|
+  | /summaries     | GET         | READ        | get all summaries    |
+  | /summaries/:id | GET         | READ        | get a single summary |
+  | /summaries     | POST        | CREATE      | add a summary        |
+
+  For each we'll do:
+  1. write a test
+  2. run the test, to ensure it fails (red)
+  3. write just enough code to get the test to pass (green)
+  4. 
+  
