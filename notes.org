@@ -144,5 +144,26 @@
   1. write a test
   2. run the test, to ensure it fails (red)
   3. write just enough code to get the test to pass (green)
-  4. 
+  4. refactor (if necessary)
+
+     
   
+* POST Routes
+** First Route summaries.py
+
+   - Here, we defined a handler that expects a payload, payload:
+     SummaryPayloadSchema, with a URL.
+   - Essentially, when the route is hit with a POST request, FastAPI will read
+     the body of the request and validate the data:
+     - If valid, the data will be available in the payload parameter.
+     - FastAPI also generates [[https://json-schema.org][JSON Schema]] definitions that are then used to
+       automatically generate the OpenAPI schema and the API documentation.
+     - If invalid, an error is immediately returned.
+
+   - added utility function for creating new summaries
+     1. Creates a new TextSummary instance
+     2. Returns the generated ID
+
+   - next wire the routes
+     - Take note of the prefix URL along with the "summaries" tag, which will be
+       applied to the OpenAPI schema (for grouping operations). 
