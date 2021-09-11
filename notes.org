@@ -1,0 +1,96 @@
+* Tortoise ORM
+
+  - ORM = [[https://en.wikipedia.org/wiki/Object–relational_mapping][Object-relational Mapping]]
+    - programming technique for cnoverting dataa between incompatible type
+      systems using object-oriented programming
+    - [[https://blog.bitsrc.io/what-is-an-orm-and-why-you-should-use-it-b2b6f75f5e2a][What is an ORM and Why You Should Use it]]
+    - solution to the idea of: Using language of choice instead of SQL
+      - using object-oriented paradigm of this language
+      - example using javascript
+        #+begin_src javascript
+          // SELECT * FROM users WHERE email = 'test@test.com';
+
+          var orm = require('generic-orm-libarry');
+          var user = orm("users").where({ email: 'test@test.com' });
+        #+end_src
+
+  - pros:
+    - write in your language
+    - abstracts awar the database systems (MySQL == PostgreSQL)
+    - advanced features (support for transactions / connection pooling /
+      migrations / seeds / streams)
+    - many of the queries you will write will perform better if you wrote them
+      yourself
+  - cons:
+    - not so beneficiant if you're a master at SQL
+    - overhead involved in learning the ORM
+    - initial configuration is a headache
+    - you don't know exactly what's going on under the hood
+
+  
+* Database Migrations (via Aerich)
+
+  - Tortoise supports [[https://en.wikipedia.org/wiki/Schema_migration][database migrations]] via [[https://github.com/tortoise/aerich][Aerich]]. Let's take a few steps back and configure it.
+    https://tortoise-orm.readthedocs.io/en/latest/migration.html
+  - creates  migration.sql files in migrations/models
+
+* Setup Pytest
+
+  - Setup tests directory (__init__, conftest, test_ping)
+  - by default pytest auto-discovers files in tests that start or end with test_ or _test
+  - Test funcitons must begin with test_, classes must also begin with Test
+
+** Fixtures
+
+   - Fixtures are reusable objects for tests
+     - they have a scope associated with them, that indicates how often the
+       fixture is invoked
+       1. function - once per test_function (default)
+       2. class - once per test class
+       3. module - once per test module
+       4. session - once per test session
+     - [[https://pybit.es/articles/pytest-fixtures/][All You Need to Know to Start Using Fixtures in Your pytest Code]]
+     - [[https://pybit.es/articles/pytest-book/][Python Testing With Pytest]]
+          
+   - define a conftest fixture in conftest
+   - we import *Starlette's TestClient*, which uses the *Requests* library to
+     make requests against the FastAPI app
+   - we orverride the dependency, setting testing to 1 (dependency_overrides is
+     a variable in fastapi.FastAPI app
+     - is a dict of {dependency_name : value_what_we_like_to_override_with}
+       - key: get_settings
+       - value: get_settings_override
+         
+*** The test_app fixture
+
+    - all code before *yield* serves as setup code, everything after as teardown
+      [[https://docs.pytest.org/en/latest/explanation/fixtures.html#improvements-over-xunit-style-setup-teardown-functions][Fixture finalization / executing teardown code]]
+    - we use the fixture by passing it to the test_function
+
+      
+** Given-When-Then
+
+   - logical framework - makes it easier and faster to write tests
+     
+   | State | Explanation                   | Code                  |
+   |-------+-------------------------------+-----------------------|
+   | Given | the state of the application  | setup code, fixtures, |
+   |       | before the test runs          | dadabase state        |
+   | When  | the behavior/login being      | code under test       |
+   |       | tested                        |                       |
+   | Then  | the expected changes based on | asserts               |
+   |       | the behavior                  |                       |
+
+   - Example:
+     #+begin_src python
+       def test_ping(test_app):
+           # Given
+           # test_app
+
+           # When
+           response = test_app.get("/ping")
+
+           # Then
+           assert response.status_code == 200
+           assert response.json() == {"environment": "dev", "ping": "pong!", "testing": True}
+     #+end_src
