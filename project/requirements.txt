@@ -5,3 +5,4 @@ pyls-isort
 pyls-mypy
 pyls-black
 pyls-memestra
+pydantic

@@ -17,7 +17,7 @@ class Settings(BaseSettings):
     """
 
     environment: str = os.getenv("ENVIRONMENT", "dev")
-    testing: bool = os.getenv("TESTING", False)
+    testing: bool = bool(os.getenv("TESTING", False))
 
 
 @lru_cache()

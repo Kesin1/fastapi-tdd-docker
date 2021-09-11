@@ -6,7 +6,7 @@ services:
     command: uvicorn app.main:app --reload --workers 1 --host 0.0.0.0 --port 8000
     # command executed when container spins update
     volumes:                    #  used to mount the code into the container. 
-      - ./project:/user/src/app # must for a development environment in order to
+      - ./project:/usr/src/app # must for a development environment in order to
       # update the container whenever a change to the source code is made
     ports:
       - 8004:8000
