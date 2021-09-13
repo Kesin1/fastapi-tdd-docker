@@ -167,3 +167,26 @@
    - next wire the routes
      - Take note of the prefix URL along with the "summaries" tag, which will be
        applied to the OpenAPI schema (for grouping operations). 
+
+
+   #+begin_src bash
+     $ http --json POST http://localhost:8004/summaries/ url=http://testdriven.io
+
+     # Output
+     HTTP/1.1 201 Created
+     content-length: 37
+     content-type: application/json
+     date: Mon, 13 Sep 2021 06:43:16 GMT
+     server: uvicorn
+
+     {
+         "id": 3,
+         "url": "http://testdriven.io"
+     }
+   #+end_src
+
+** Test
+
+   - test_summaries.py to project/tests
+     - first test that it returns what you expect
+     - adding new fixture to conftest
