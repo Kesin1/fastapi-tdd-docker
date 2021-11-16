@@ -3,7 +3,7 @@ CREATE TABLE IF NOT EXISTS "textsummary" (
     "id" SERIAL NOT NULL PRIMARY KEY,
     "url" TEXT NOT NULL,
     "summary" TEXT NOT NULL,
-    "created_at" TIMESTAMPTZ NOT NULL
+    "created_at" TIMESTAMPTZ NOT NULL  DEFAULT CURRENT_TIMESTAMP
 );
 COMMENT ON TABLE "textsummary" IS 'New Database model called TextSummary';
 CREATE TABLE IF NOT EXISTS "aerich" (

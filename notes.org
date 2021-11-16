@@ -16,7 +16,7 @@
 
   - pros:
     - write in your language
-    - abstracts awar the database systems (MySQL == PostgreSQL)
+    - abstracts away the database systems (MySQL == PostgreSQL)
     - advanced features (support for transactions / connection pooling /
       migrations / seeds / streams)
     - many of the queries you will write will perform better if you wrote them
@@ -32,7 +32,7 @@
   - Tortoise supports [[https://en.wikipedia.org/wiki/Schema_migration][database migrations]] via [[https://github.com/tortoise/aerich][Aerich]]. Let's take a few steps back and configure it.
     https://tortoise-orm.readthedocs.io/en/latest/migration.html
   - creates  migration.sql files in migrations/models
-
+    
 * Setup Pytest
 
   - Setup tests directory (__init__, conftest, test_ping)
@@ -147,7 +147,6 @@
   4. refactor (if necessary)
 
      
-  
 * POST Routes
 ** First Route summaries.py
 
