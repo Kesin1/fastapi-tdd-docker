@@ -354,3 +354,92 @@
           assert response.json()["detail"] == detail
     #+end_src
 
+
+  
+* Monkeypatching
+
+  - act of dynamically changing a piece of code at runtime
+  - allows to override the defualt behavior of a module, object, method,
+    function
+  - example
+    #+begin_src python
+      # twitter.py
+
+      import os
+      import tweepy
+
+      consumer_key = os.getenv("CONSUMER_KEY")
+      consumer_secret = os.getenv("CONSUMER_SECRET")
+      access_key = os.getenv("ACCESS_KEY")
+      access_secret = os.getenv("ACCESS_SECRET")
+
+
+      def get_friends(user):
+          """
+          Given a valid Twitter user 20 friends are returned
+          """
+
+          auth = tweepy.OAuthHandler(consumer_key, consumer_secret)
+          auth.set_access_token(access_key, access_secret)
+          api = tweepy.API(auth)
+
+          friends = []
+
+          try:
+              user = api.get_user(user)
+          except tweepy.error.TweepError:
+              return "Failed to get request token."
+
+          for friend in user.friends():
+              friends.append(friend.screen_name)
+
+          return friends
+    #+end_src
+
+  - get_friends function uses tweepy
+    - to authenticate against Twitter API
+  - Returns list of friends
+    #+begin_src python
+      import twitter
+
+
+      def test_get_friends(monkeypatch):
+          def mock_get_friends(user):
+              return [(lambda x: f"friend{x}")(x) for x in range(20)]
+
+          monkeypatch.setattr(twitter, "get_friends", mock_get_friends)
+
+          assert len(twitter.get_friends("testdrivenio")) == 20
+    #+end_src
+
+  - create a mocked version of get_friends called mock_get_friends
+
+  - increases amount of time, makes test more predictable, not effected by
+    network connectivity
+
+  - not actually testing the get_friends function call
+
+  - in the testing process, possibly in a staging environment, you should test
+    out all external communication - some form of end-to-end tests
+
+  - In our tests, we'll use the monkeypatch fixture to mock database calls.
+
+* Unit Tests
+
+  - So, we'll write all the same tests as before, but we'll monkeypatch calls to
+    the CRUD service.
+  - Same tests but without network calls, but you still use the test_app, but no
+    mock necessary for those routes where you expect the result without an
+    external call being made, i.e. invalidation, where you expect a response
+    before the function is getting called
+    
+    
+* Parallel Test Runs
+
+  - Next, since we're no longer hitting a database, we can run these tests in
+    parallel with pytest-xdist.
+    - docker-compose exec web pytest -k "unit" -n auto
+    
+* Background Task
+
+  
