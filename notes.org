@@ -441,5 +441,5 @@
     - docker-compose exec web pytest -k "unit" -n auto
     
 * Background Task
-
   
+  - https://fastapi.tiangolo.com/tutorial/background-tasks/
