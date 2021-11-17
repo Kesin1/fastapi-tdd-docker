@@ -20,6 +20,6 @@ async def generate_summary(summary_id: int, url: str) -> None:
 
     summary = article.summary
 
-    await asyncio.sleep(10)  # To test, add asyncio.sleep to generate_summary
-    # So the summary is added after the response was already sent back to the user
+    # await asyncio.sleep(10)  # To test, add asyncio.sleep to generate_summary
+    # # So the summary is added after the response was already sent back to the user
     await TextSummary.filter(id=summary_id).update(summary=summary)
