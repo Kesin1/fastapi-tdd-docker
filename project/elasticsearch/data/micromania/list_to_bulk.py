@@ -1,4 +1,5 @@
 import json
+
 from pathlib2 import Path
 
 
@@ -55,8 +56,3 @@ list_of_dicts = [
         "title": "aklsdjhfklkad ffkjhaskdjh kajsh fkfj hasdkjff akjsdh fkjahsdfkj ",
     },
 ]
-
-
-with open(filepath, "w") as fp:
-    for line in bulk:
-        fp.write(json.dumps(line) + "\n")

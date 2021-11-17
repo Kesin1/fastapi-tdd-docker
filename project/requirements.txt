@@ -11,4 +11,7 @@ pyls-mypy
 pyls-black
 pyls-memestra
 pydantic
-
+pytest-cov
+flake8
+black
+isort
