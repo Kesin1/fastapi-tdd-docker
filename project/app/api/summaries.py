@@ -1,12 +1,16 @@
 from typing import List
 
-from app.api import crud
-from app.models.pydantic import (SummaryPayloadSchema, SummaryResponseSchema,
-                                 SummaryUpdatePayloadSchema)
-from app.models.tortoise import SummarySchema
-from app.summarizer import generate_summary
 from fastapi import APIRouter, HTTPException, Path
 from starlette.background import BackgroundTasks
+
+from app.api import crud
+from app.models.pydantic import (
+    SummaryPayloadSchema,
+    SummaryResponseSchema,
+    SummaryUpdatePayloadSchema,
+)
+from app.models.tortoise import SummarySchema
+from app.summarizer import generate_summary
 
 router = APIRouter()
 
