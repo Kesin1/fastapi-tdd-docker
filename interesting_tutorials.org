@@ -1,0 +1,24 @@
+* Org-mode and Emacs
+
+  - [[https://www.youtube.com/c/SystemCrafters/playlists][SystemCrafters playlists]]
+
+* Web Developement
+
+  - [[https://www.youtube.com/c/grafikart/playlists][Many different subjects around Programming and Web Developement]]
+
+    
+** Figma - UI Design
+
+   - [[https://mikebrns.com/blog/photography-portfolio-figma/][figma photography]]
+
+   - [[https://www.skillshare.com/browse/ui-design?coupon=GOOG1MFREE&utm_source=Google&utm_medium=paidsearch&utm_campaign=Croud_Search_Google_FR_BOF_Non-Brand_DSA-Categories&utm_term=&matchtype=b&gclid=Cj0KCQjwsZKJBhC0ARIsAJ96n3VNsXHEQ0XK4eQmLiFK8Yu4CkrG_1_ZKzwivvooP8c1i8PJf9fbnpYaAkMrEALw_wcB][Online UI Design Classes - SkillShare]]
+
+   - [[https://www.udemy.com/course/learn-figma/][Learn Figma - UI/UX Design Essential Training]]
+
+   - [[https://www.udemy.com/course/figma-for-ui-designers/][figma-for-ui-designers udemy]]
+
+     
+* Python
+
+  - https://realpython.com/lessons/javascript-brief-history/
+
